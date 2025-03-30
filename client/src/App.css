@@ -1,3 +1,6 @@
+*{
+    box-sizing: border-box;
+}
 body {
     color: #222;
 }
@@ -50,7 +53,7 @@ div.post h2 {
 div.post p.info {
     margin: 6px 0;
     color: #888;
-    font-size: 0.9rem;  /* Corrected from 7rem */
+    font-size: 0.9rem;  
     font-weight: bold;
     display: flex;
     gap: 10px;
@@ -58,10 +61,75 @@ div.post p.info {
 
 div.post p.info a.author {
     color: #333;
-    cursor: pointer; /* Added cursor pointer */
+    cursor: pointer; 
 }
 
 div.post p.summary {
     margin: 10px 0;
     line-height: 1.4rem;
+}
+
+form.login, form.register {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Simple fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+form h1 {
+    font-size: 24px;
+    color: #222;
+    margin-bottom: 15px;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+}
+
+input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+    outline: none;
+}
+button {
+    width: 100%;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.98);
 }
