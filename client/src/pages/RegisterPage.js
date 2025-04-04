@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [redirectToLogin, setRedirectToLogin] = useState(false);
 
   async function register(ev) {
     ev.preventDefault();
@@ -19,9 +21,14 @@ export default function RegisterPage() {
 
     if (response.status === 200) {
       alert("Registration successful");
+      setRedirectToLogin(true); // Redirect to login after successful registration
     } else {
       alert("Registration failed, User already exists");
     }
+  }
+
+  if (redirectToLogin) {
+    return <Navigate to="/login" />;
   }
 
   return (

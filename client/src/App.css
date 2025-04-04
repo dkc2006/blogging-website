@@ -133,3 +133,46 @@ button:hover {
 button:active {
     transform: scale(0.98);
 }
+
+.login-options {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.forgot-password {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+.forgot-password:hover {
+    color: #0056b3;
+    border-radius: 25px;
+    border: 2px solid #007bff;
+    text-decoration:solid;
+    color: white;
+    background: #007bff;
+}
+
+.create-account {
+    display: block;
+    background: none;
+    color: #007bff;
+    border: 2px solid #007bff;
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.create-account:hover {
+    background: #007bff;
+    color: white;
+    transform: scale(1.05);
+}
