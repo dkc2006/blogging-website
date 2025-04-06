@@ -65,7 +65,6 @@ app.post("/login", async (req, res) => {
     if (!userDoc) {
       return res.status(400).json({ message: "User not found" });
     }
-
     const passOk = bcryptjs.compareSync(password, userDoc.password);
 
     if (passOk) {
