@@ -1,4 +1,3 @@
-// src/pages/LoginPage.js
 import { useState, useContext } from "react";
 import { Navigate, Link } from "react-router-dom";
 import { UserContext } from "../UserContext";
@@ -20,7 +19,7 @@ export default function LoginPage() {
 
     if (response.ok) {
       const userInfo = await response.json();
-      setUserInfo(userInfo); // ✅ Update context
+      setUserInfo(userInfo);
       alert("Login successful");
       setRedirect(true);
     } else {

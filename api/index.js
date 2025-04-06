@@ -9,7 +9,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const secret = "fhhfnkbdhbsjb687fnnfn5njkfth65";
 
-// ✅ Middleware
+// Middleware
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -107,7 +107,7 @@ app.post("/logout", (req, res) => {
   res.cookie("token", "").json({ message: "Logged out successfully" });
 });
 
-// ✅ Start server
+// Start server
 app.listen(4000, () => {
   console.log("Server running on http://localhost:4000");
 });
