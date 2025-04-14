@@ -2,12 +2,16 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const User = require("./models/User");
+const Post = require("./models/Post");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
+const multer = require("multer");
+const fs = require("fs");
 
 const app = express();
 const secret = "fhhfnkbdhbsjb687fnnfn5njkfth65";
+const uploadMiddleware = multer({ dest: "uploads/" });
 
 // Middleware
 app.use(
@@ -18,7 +22,9 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
+// MongoDB Connection
 mongoose
   .connect("mongodb://localhost:27017/bloggingWebsite")
   .then(() => console.log("Connected to MongoDB"))
@@ -65,21 +71,25 @@ app.post("/login", async (req, res) => {
     if (!userDoc) {
       return res.status(400).json({ message: "User not found" });
     }
+
     const passOk = bcryptjs.compareSync(password, userDoc.password);
 
     if (passOk) {
       jwt.sign(
         { username: userDoc.username, id: userDoc._id },
         secret,
-        {},
+        { expiresIn: "1h" },
         (err, token) => {
           if (err) throw err;
 
-          res.cookie("token", token, { httpOnly: true }).status(200).json({
-            id: userDoc._id,
-            username: userDoc.username,
-            message: "Login successful",
-          });
+          res
+            .cookie("token", token, { httpOnly: true, maxAge: 3600000 })
+            .status(200)
+            .json({
+              id: userDoc._id,
+              username: userDoc.username,
+              message: "Login successful",
+            });
         }
       );
     } else {
@@ -103,10 +113,73 @@ app.get("/profile", (req, res) => {
 
 // Logout Route
 app.post("/logout", (req, res) => {
-  res.cookie("token", "").json({ message: "Logged out successfully" });
+  res
+    .cookie("token", "", { httpOnly: true, maxAge: 0 })
+    .json({ message: "Logged out successfully" });
 });
 
-// Start server
+// Create Post Route
+app.post("/post", uploadMiddleware.single("file"), async (req, res) => {
+  const { originalname, path } = req.file;
+  const ext = originalname.split(".").pop();
+  const newPath = path + "." + ext;
+  fs.renameSync(path, newPath);
+
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, async (err, info) => {
+    if (err) return res.status(401).json({ message: "Unauthorized" });
+
+    const { title, summary, content } = req.body;
+
+    try {
+      const postDoc = await Post.create({
+        title,
+        summary,
+        content,
+        cover: newPath,
+        author: info.id,
+      });
+
+      res.json(postDoc);
+    } catch (e) {
+      console.error("Post creation error:", e);
+      res.status(500).json({ message: "Error creating post" });
+    }
+  });
+});
+
+// Get All Posts
+app.get("/post", async (req, res) => {
+  try {
+    const posts = await Post.find()
+      .populate("author", ["username"])
+      .sort({ createdAt: -1 })
+      .limit(20);
+    res.json(posts);
+  } catch (e) {
+    console.error("Fetch posts error:", e);
+    res.status(500).json({ message: "Error fetching posts" });
+  }
+});
+
+// Get Single Post by ID
+app.get("/post/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const postDoc = await Post.findById(id).populate("author", ["username"]);
+    res.json(postDoc);
+  } catch (e) {
+    console.error("Fetch post error:", e);
+    res.status(500).json({ message: "Error fetching post" });
+  }
+});
+
+// 404 Handler
+app.use((req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
+// Start Server
 app.listen(4000, () => {
   console.log("Server running on http://localhost:4000");
 });

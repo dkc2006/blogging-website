@@ -1,23 +1,31 @@
-export default function Post() {
+import { formatISO9075 } from "date-fns";
+import { Link } from "react-router-dom";
+
+export default function Post({
+  _id,
+  title,
+  summary,
+  cover,
+  content,
+  createdAt,
+  author,
+}) {
   return (
     <div className="post">
       <div className="image">
-        <img
-          src="https://techcrunch.com/wp-content/uploads/2022/12/lawnmower-Large.jpeg"
-          alt="Blog post"
-        />
+        <Link to={`/post/${_id}`}>
+          <img src={"http://localhost:4000/" + cover} alt="" />
+        </Link>
       </div>
       <div className="texts">
-        <h2>Full-house battery backup coming later this year</h2>
+        <Link to={`/post/${_id}`}>
+          <h2>{title}</h2>
+        </Link>
         <p className="info">
-          <a className="author">Dawid Paszko</a>
-          <time>2023-01-05 16:45</time>
+          <a className="author">{author.username}</a>
+          <time>{formatISO9075(new Date(createdAt))}</time>
         </p>
-        <p className="summary">
-          Today at its special launch event, home backup power giant EcoFlow
-          launched a flurry of new products, including a “Whole-Home Backup
-          Power Solution.”
-        </p>
+        <p className="summary">{summary}</p>
       </div>
     </div>
   );
