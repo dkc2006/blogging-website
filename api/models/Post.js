@@ -14,7 +14,6 @@ const PostSchema = new Schema(
     versionKey: false, // disables __v
   }
 );
-
 const PostModel = model("Post", PostSchema);
 
 module.exports = PostModel;
