@@ -21,7 +21,7 @@ export default function RegisterPage() {
 
     if (response.status === 200) {
       alert("Registration successful");
-      setRedirectToLogin(true); // Redirect to login after successful registration
+      setRedirectToLogin(true);
     } else {
       alert("Registration failed, User already exists");
     }
@@ -32,28 +32,29 @@ export default function RegisterPage() {
   }
 
   return (
-    <form className="register" onSubmit={register}>
-      <h1>Register</h1>
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(ev) => setUsername(ev.target.value)}
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(ev) => setEmail(ev.target.value)}
-      />
-
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(ev) => setPassword(ev.target.value)}
-      />
-      <button type="submit">Register</button>
-    </form>
+    <div className="page-background">
+      <form className="register" onSubmit={register}>
+        <h1>Register</h1>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(ev) => setUsername(ev.target.value)}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(ev) => setEmail(ev.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(ev) => setPassword(ev.target.value)}
+        />
+        <button type="submit">Register</button>
+      </form>
+    </div>
   );
 }

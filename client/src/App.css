@@ -75,10 +75,11 @@ div.post p.summary {
     line-height: 1.4rem;
 }
 
-form.login, form.register {
-    max-width: 400px;
+form.login, 
+form.register {
+    max-width: 1000px; /* increased from 400px */
     margin: 50px auto;
-    padding: 20px;
+    padding: 30px; /* increased padding */
     background: #fff;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -105,13 +106,14 @@ form h1 {
 }
 input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 12px;
+    padding: 14px; /* increased from 10px */
+    margin-bottom: 14px;
     border: 2px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 6px;
+    font-size: 17px; /* slight bump */
     transition: all 0.3s ease-in-out;
 }
+
 
 input:focus {
     border-color: #007bff;
@@ -231,3 +233,145 @@ div.content p{
 div.content li{
     margin-bottom: 10px;
 }
+
+
+/* === AUTH PAGES BACKGROUND IMAGE === */
+.page-background {
+    background-image: url('./assets/blog.jpeg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Optional dark overlay for readability */
+.page-background::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* darken background */
+    z-index: 0;
+}
+
+/* Ensure form content appears above the overlay */
+form.login,
+form.register {
+    position: relative;
+    z-index: 1;
+}
+
+
+.index-background {
+    width: 100%;
+    position: relative;
+  }
+  
+  /* Optional overlay effect */
+  .index-background::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.6); /* light overlay to enhance readability */
+    z-index: 0;
+  }
+  
+  .posts-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .page-background {
+  padding: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+form input,
+form button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+form button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+
+div.edit-row{
+    text-align: center;
+    margin-bottom: 20px;
+}
+div.post-page a.edit-btn{
+    background-color: #333;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #fff;
+    padding:15px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+a svg{
+    height:20px;
+}
+
+
+.like-section {
+    margin-top: 20px;
+    width: 10%;
+  }
+  
+  .like-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+  }
+  
+  .like-button {
+    border: 2px solid #ff4d6d;
+    color: #720e21;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .like-button.liked {
+    background-color: #ff4d6d;
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 77, 109, 0.5);
+  }
+  
+  .like-count {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #333;
+    font-weight: normal;
+    display: inline-block;
+    line-height: 1.5;
+  }

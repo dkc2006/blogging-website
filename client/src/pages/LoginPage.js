@@ -32,40 +32,43 @@ export default function LoginPage() {
   }
 
   return (
-    <form className="login" onSubmit={login}>
-      <h1>Login</h1>
+    <div className="page-background">
+      {" "}
+      <form className="login" onSubmit={login}>
+        <h1>Login</h1>
 
-      <input
-        type="text"
-        placeholder="Username"
-        value={userName}
-        onChange={(ev) => setUserName(ev.target.value)}
-      />
+        <input
+          type="text"
+          placeholder="UserName"
+          value={userName}
+          onChange={(ev) => setUserName(ev.target.value)}
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(ev) => setPassword(ev.target.value)}
-      />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(ev) => setPassword(ev.target.value)}
+        />
 
-      <button>Log in</button>
-      <div className="login-options">
-        <Link
-          to="/forgot-password"
-          className="forgot-password"
-          style={{ fontSize: "16px" }}
-        >
-          Forgot password?
-        </Link>
-        <Link
-          to="/register"
-          className="create-account"
-          style={{ fontSize: "17px", padding: "12px" }}
-        >
-          Create new account
-        </Link>
-      </div>
-    </form>
+        <button>Log in</button>
+        <div className="login-options">
+          <Link
+            to="/forgot-password"
+            className="forgot-password"
+            style={{ fontSize: "16px" }}
+          >
+            Forgot password?
+          </Link>
+          <Link
+            to="/register"
+            className="create-account"
+            style={{ fontSize: "17px", padding: "12px" }}
+          >
+            Create new account
+          </Link>
+        </div>
+      </form>
+    </div>
   );
 }

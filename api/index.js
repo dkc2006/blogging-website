@@ -149,6 +149,59 @@ app.post("/post", uploadMiddleware.single("file"), async (req, res) => {
 });
 
 // Get All Posts
+app.put("/post/:id", uploadMiddleware.single("file"), async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Validate the ID
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid post ID" });
+    }
+
+    // Find the post to ensure it exists
+    const post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Check if the user is authorized to update the post
+    const { token } = req.cookies;
+    jwt.verify(token, secret, {}, async (err, userInfo) => {
+      if (err) return res.status(401).json({ message: "Unauthorized" });
+
+      if (post.author.toString() !== userInfo.id) {
+        return res.status(403).json({ message: "Forbidden: Not the author" });
+      }
+
+      // Handle file upload if a new file is provided
+      let newPath = post.cover; // Keep the existing cover by default
+      if (req.file) {
+        const { originalname, path } = req.file;
+        const ext = originalname.split(".").pop();
+        newPath = path + "." + ext;
+        fs.renameSync(path, newPath);
+
+        // Optionally, delete the old file if needed
+        if (post.cover && fs.existsSync(post.cover)) {
+          fs.unlinkSync(post.cover);
+        }
+      }
+
+      // Update the post
+      const { title, summary, content } = req.body;
+      post.title = title || post.title;
+      post.summary = summary || post.summary;
+      post.content = content || post.content;
+      post.cover = newPath;
+
+      const updatedPost = await post.save();
+      res.json(updatedPost);
+    });
+  } catch (e) {
+    console.error("Post update error:", e);
+    res.status(500).json({ message: "Error updating post" });
+  }
+});
 app.get("/post", async (req, res) => {
   try {
     const posts = await Post.find()
